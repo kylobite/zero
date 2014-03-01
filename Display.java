@@ -70,7 +70,7 @@ public class Display extends Canvas implements Runnable {
         screen.render();
 
         for (int i = 0; i < WIDTH*HEIGHT; i++) {
-            pixels[i] = screen.pixels[i];
+            pixels[i] = 0;//screen.pixels[i];
         }
 
         Graphics g = bs.getDrawGraphics();
