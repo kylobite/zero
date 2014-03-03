@@ -20,9 +20,9 @@ public class Screen extends Render {
 
         int x = (width  - 256) / 2;
         int y = (height - 256) / 2;
-        for (int i = 0; i < 100; i++) {
-            int animX = (int)(Math.sin((System.currentTimeMillis()) % 2000.0 / 2000.0 * Math.PI * 2) * 200);
-            int animY = (int)(Math.cos((System.currentTimeMillis()) % 2000.0 / 2000.0 * Math.PI * 2) * 200);
+        for (int i = 0; i < 50; i++) {
+            int animX = (int)(Math.sin((System.currentTimeMillis() + i * 5) % 2000.0 / 2000.0 * Math.PI * 2) * 200);
+            int animY = (int)(Math.cos((System.currentTimeMillis() + i * 5) % 2000.0 / 2000.0 * Math.PI * 2) * 200);
             draw(test, x + animX, y + animY);
         }
     }

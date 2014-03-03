@@ -16,7 +16,6 @@ public class Display extends Canvas implements Runnable {
     public static ArrayList<String> debug   = new ArrayList<String>();
 
     private Thread thread;
-    //private Render render;
     private Screen screen;
     private BufferedImage image;
 
@@ -70,7 +69,7 @@ public class Display extends Canvas implements Runnable {
         screen.render();
 
         for (int i = 0; i < WIDTH*HEIGHT; i++) {
-            pixels[i] = 0;//screen.pixels[i];
+            pixels[i] = screen.pixels[i];
         }
 
         Graphics g = bs.getDrawGraphics();
