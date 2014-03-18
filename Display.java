@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 import java.awt.image.BufferStrategy;
 import java.awt.Graphics;
+import java.awt.Dimension;
 
 public class Display extends Canvas implements Runnable {
 
@@ -24,6 +25,11 @@ public class Display extends Canvas implements Runnable {
     private int[] pixels;
 
     public Display() {
+        Dimension size = new Dimension(WIDTH, HEIGHT);
+        setPreferredSize(size);
+        setMinimumSize(size);
+        setMaximumSize(size);
+
         screen  = new Screen(WIDTH, HEIGHT);
         game    = new Game();
         image   = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -54,7 +60,7 @@ public class Display extends Canvas implements Runnable {
         int frames          = 0;
         double delta        = 0;
         long previousTime   = System.nanoTime();
-        double frequency    = 1 / 60D;
+        double frequency    = 1 / 60.0;
         int tickCount       = 0;
         boolean ticked      = false;
 
@@ -62,7 +68,7 @@ public class Display extends Canvas implements Runnable {
             long currentTime = System.nanoTime();
             long passedTime  = currentTime - previousTime;
             previousTime = currentTime;
-            delta += passedTime / 1000000000D;
+            delta += passedTime / 1000000000.0;
 
             while (delta > frequency) {
                 tick();
@@ -115,10 +121,10 @@ public class Display extends Canvas implements Runnable {
         frame.add(game);
         frame.pack();
         frame.setTitle(TITLE);
-        frame.setSize(WIDTH,HEIGHT);
         frame.setResizable(false);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
 
         System.out.println("Running...");
 
