@@ -17,6 +17,7 @@ public class Display extends Canvas implements Runnable {
 
     private Thread thread;
     private Screen screen;
+    private Game game;
     private BufferedImage image;
 
     private boolean running = false;
@@ -24,8 +25,9 @@ public class Display extends Canvas implements Runnable {
 
     public Display() {
         screen  = new Screen(WIDTH, HEIGHT);
+        game    = new Game();
         image   = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
-        pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
+        pixels  = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
     }
 
     private void start() {
@@ -49,14 +51,42 @@ public class Display extends Canvas implements Runnable {
 
     // Game loop
     public void run() {
+        int frames          = 0;
+        double delta        = 0;
+        long previousTime   = System.nanoTime();
+        double frequency    = 1 / 60D;
+        int tickCount       = 0;
+        boolean ticked      = false;
+
         while (running) {
-            update();
+            long currentTime = System.nanoTime();
+            long passedTime  = currentTime - previousTime;
+            previousTime = currentTime;
+            delta += passedTime / 1000000000D;
+
+            while (delta > frequency) {
+                tick();
+                delta -= frequency;
+                ticked = true;
+                tickCount++;
+                if (tickCount % 60 == 0) {
+                    System.out.println(frames + "fps");
+                    previousTime += 1000;
+                    frames = 0;
+                }
+            }
+
+            if (ticked) {
+                render();
+                frames++;
+            }
             render();
+            frames++;
         }
     }
 
-    private void update() {
-        
+    private void tick() {
+        game.tick();
     }
 
     private void render() {
@@ -66,7 +96,7 @@ public class Display extends Canvas implements Runnable {
             return;
         }
 
-        screen.render();
+        screen.render(game);
 
         for (int i = 0; i < WIDTH*HEIGHT; i++) {
             pixels[i] = screen.pixels[i];
