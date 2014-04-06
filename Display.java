@@ -17,6 +17,7 @@ public class Display extends Canvas implements Runnable {
     public static ArrayList<String> debug   = new ArrayList<String>();
 
     private Thread thread;
+    private JFrame frame;
     private Screen screen;
     private Game game;
     private BufferedImage image;
@@ -30,6 +31,7 @@ public class Display extends Canvas implements Runnable {
         setMinimumSize(size);
         setMaximumSize(size);
 
+        frame   = new JFrame();
         screen  = new Screen(WIDTH, HEIGHT);
         game    = new Game();
         image   = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -76,7 +78,7 @@ public class Display extends Canvas implements Runnable {
                 ticked = true;
                 tickCount++;
                 if (tickCount % 60 == 0) {
-                    System.out.println(frames + "fps");
+                    frame.setTitle(TITLE + " - " + frames + " fps");
                     previousTime += 1000;
                     frames = 0;
                 }
@@ -116,15 +118,13 @@ public class Display extends Canvas implements Runnable {
 
     public static void main(String[] args) {
         Display game = new Display();
-        JFrame frame = new JFrame();
 
-        frame.add(game);
-        frame.pack();
-        frame.setTitle(TITLE);
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
+        game.frame.add(game);
+        game.frame.pack();
+        game.frame.setResizable(false);
+        game.frame.setVisible(true);
+        game.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        game.frame.setLocationRelativeTo(null);
 
         System.out.println("Running...");
 
