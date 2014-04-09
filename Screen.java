@@ -22,14 +22,7 @@ public class Screen extends Render {
             pixels[i] = 0;
         }
 
-        // int x = (width  - 256) / 2;
-        // int y = (height - 256) / 2;
-        // for (int i = 0; i < 40; i++) {
-        //     int animX = (int)(Math.sin(((game.time * 5) + i * 12) % 2000.0 / 2000.0 * Math.PI * 2) * 200);
-        //     int animY = (int)(Math.cos(((game.time * 5) + i * 12) % 2000.0 / 2000.0 * Math.PI * 2) * 200);
-        // }
-
-        render.floor();
+        render.floor(game);
         draw(render, 0, 0);
     }
 

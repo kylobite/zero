@@ -5,21 +5,25 @@ public class Render3D extends Render {
         super(width,height);
     }
 
-    double time = 0;
+    public void floor(Game game) {
+        double rotation = 0; //game.time / 100.0;
+        double forward  = game.time / 5.0;
+        double right    = game.time / 5.0;
+        double cosine   = Math.cos(rotation);
+        double sine     = Math.sin(rotation);
 
-    public void floor() {
         for (int y = 0; y < height; y++) {
-            double yDepth = (y - height / 2.0) / height;
+            double ceiling = (y - height / 2.0) / height;
 
-            if (yDepth < 0) yDepth = -yDepth;
+            double z      = 8.0 / ceiling;
 
-            double z      = 8.0 / yDepth;
-            time         += 0.0005;
+            if (ceiling < 0) z = 8.0 / -ceiling;
 
             for (int x = 0; x < width; x++) {
                 double xDepth = (x - width / 2.0) / height;
-                int xx        = (int)(xDepth * z) & 15;
-                int yy        = (int)(z + time) & 15;
+                double depth  = xDepth * z;
+                int xx        = (int)(depth * cosine + z * sine + right) & 15;
+                int yy        = (int)(z * cosine - depth * sine + forward) & 15;
 
                 pixels[x + y * width] = (xx << 4) | ((yy << 4) << 8);
             }
